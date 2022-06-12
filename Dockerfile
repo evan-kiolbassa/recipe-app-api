@@ -7,11 +7,15 @@ ENV PYTHONBUFFERED 1
 
 # Copies the Python specifications from local machine into container directory
 COPY ./requirements.txt /tmp/requirements.txt
+COPY ./requirements.dev.txt /tmp/requirements.dev.txt
 # Copying the app directory into the container
 COPY ./app /app
 WORKDIR /app
 # Exposing port 8000
 EXPOSE 8000
+
+ARG DEV=false
+
 # Run command for the alpine image that was built in the FROM command
 # Creates a virtual environment to mitigate the risk of dependency issues
 RUN python -m venv /py && \
@@ -19,6 +23,10 @@ RUN python -m venv /py && \
     /py/bin/pip install --upgrade pip && \
     # Uses pip to install requirements from the .txt file
     /py/bin/pip install -r /tmp/requirements.txt && \
+    # A shell script if conditional statement. Note the syntax structure
+    if [ $DEV = 'true' ]; \
+        then /py/bin/pip install -r /tmp/requirements.dev.txt ; \
+    fi && \
     # Removal of the tmp directory to make container lightweight.
     # Keeping this directory could lead to future dependency issues
     # that can be mitigated by the directory removal

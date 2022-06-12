@@ -6,6 +6,8 @@ services:
   app: # Name of the service
     build:
       context: . # Build dockerfile inside of current directory
+      args:
+        - DEV=true # Overrides the DEV arg in dockerfile
     ports: # Maps port 8000 on local machine to port 8000 in docker container
       - "8000:8000"
     volumes: # Method of mapping directories from local machine to container
