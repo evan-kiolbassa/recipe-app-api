@@ -14,4 +14,25 @@ services:
       - ./app:/app # Mapping the /app directory from local machine to /app directory in container
     command: >
       sh -c "python manage.py runserver 0.0.0.0:8000"
-    
+    environment:
+      - DB_HOST=db
+      - DB_NAME=devdb
+      - DB_USER=devuser
+      - DB_PASS=changeme
+    depends_on: # The app execution is dependent on the successful execution of the db startup
+      - db
+
+
+  db:
+    image: postgres:13-alpine
+    volumes:
+      - dev-db-data:/var/lib/postgresql/data
+    # Defining postgres environment configuration variables
+    # Dev credentials for local development
+    environment:
+      - POSTGRES_DB=devdb
+      - POSTGRES_USER=devuser
+      - POSTGRES_PASSWORD=changeme
+
+volumes:
+  dev-db-data:
