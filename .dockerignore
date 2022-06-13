@@ -1,0 +1,17 @@
+# Git
+.git
+.gitignore
+
+# Docker
+.docker
+
+# Python
+# Exclude cache because it could containe cached information specific
+# to local machine that would cause dependency issues inside container
+app/__pycache__/
+app/*/__pycache__/
+app/*/*/__pycache__/
+app/*/*/*/__pycache__/
+.env/
+.venv/
+venv/

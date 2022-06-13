@@ -13,5 +13,5 @@ services:
     volumes: # Method of mapping directories from local machine to container
       - ./app:/app # Mapping the /app directory from local machine to /app directory in container
     command: >
-      sc -c "python manage.py runserver 0.0.0.0:8000"
+      sh -c "python manage.py runserver 0.0.0.0:8000"
     
