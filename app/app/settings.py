@@ -75,7 +75,7 @@ WSGI_APPLICATION = 'app.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.backends.postgresql',
+        'ENGINE': 'django.db.backends.postgresql',
         # Pulling values from docker-compose file
         'HOST' : os.environ.get('DB_HOST'),
         'NAME' : os.environ.get('DB_NAME'),
