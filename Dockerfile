@@ -21,6 +21,13 @@ ARG DEV=false
 RUN python -m venv /py && \
     # Upgrading the package download manager inside the container virtual environment
     /py/bin/pip install --upgrade pip && \
+    # Required for psycopg2 to connect to postgres database
+    # apk is Alpine-Package-Keeper
+    apk add --update --no-cache postgresql-client && \
+    # Groups virtual dependencies into the variable specified below
+    apk add --update --no-cache --virtual .tmp-build-deps \
+        # Installing packages required for psycopg2 build
+        build-base postgresql-dev musl-dev && \
     # Uses pip to install requirements from the .txt file
     /py/bin/pip install -r /tmp/requirements.txt && \
     # A shell script if conditional statement. Note the syntax structure
@@ -31,6 +38,7 @@ RUN python -m venv /py && \
     # Keeping this directory could lead to future dependency issues
     # that can be mitigated by the directory removal
     rm -rf /tmp && \
+    apk del .tmp-build-deps && \
     # Adds a custom user that is not the ROOT_USER of the image
     # DO NOT USE ROOT USER
     adduser \
