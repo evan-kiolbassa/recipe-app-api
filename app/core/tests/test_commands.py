@@ -13,7 +13,6 @@ class CommandTests(SimpleTestCase):
     """
     Test Commands
     """
-
     def test_wait_for_db_ready(self, patched_check):
         """
         Test waiting for database if database ready.
@@ -26,23 +25,19 @@ class CommandTests(SimpleTestCase):
         patched_check.assert_called_once_with(databases=['default'])
 
     @patch('time.sleep')
-    def test_wait_for_db_delay(self, patched_sleep,patched_check):
+    def test_wait_for_db_delay(self, patched_sleep, patched_check):
         '''
         Test waiting for database when OperationalError.
 
-        The first two times the mock object is called, 
-        psycopg2error should be raised. This is raised when the 
+        The first two times the mock object is called,
+        psycopg2error should be raised. This is raised when the
         database is not ready to accept conncections.
 
         Then, the next three calls will raise an OperationalError.
         This exception is raised from Django
         '''
-
         patched_check.side_effect = [Psycopg2Error] * 2 + \
             [OperationalError] * 3 + [True]
-
         call_command('wait_for_db')
-
-        self.assertEqual(patched_check.call_count,6)
-
-        patched_check.assert_called_with(databases = ['default'])
+        self.assertEqual(patched_check.call_count, 6)
+        patched_check.assert_called_with(databases=['default'])
