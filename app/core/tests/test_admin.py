@@ -33,7 +33,7 @@ class AdminSiteTests(TestCase):
         Tests that users appear on Django Admin User-Interface
         '''
         url = reverse('admin:core_user_changelist')
-          # Accesses list of users in sytsem
+        # Accesses list of users in sytsem
         res = self.client.get(url)  # Makes a http get request
 
         self.assertContains(res, self.user.name)
