@@ -16,7 +16,7 @@ class AdminSiteTests(TestCase):
         '''
         Create users and client to mock tests
         '''
-        self.client = Client() # Creating a client for test cases
+        self.client = Client()  # Creating a client for test cases
         self.admin_user = get_user_model().objects.create_superuser(
             email='admin@example.com',
             password='testpass123'
@@ -32,8 +32,9 @@ class AdminSiteTests(TestCase):
         '''
         Tests that users appear on Django Admin User-Interface
         '''
-        url = reverse('admin:core_user_changelist') # Accesses list of users in sytsem
-        res = self.client.get(url) # Makes a http get request
+        url = reverse('admin:core_user_changelist')
+          # Accesses list of users in sytsem
+        res = self.client.get(url)  # Makes a http get request
 
         self.assertContains(res, self.user.name)
         self.assertContains(res, self.user.email)
