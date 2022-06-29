@@ -16,11 +16,12 @@ class UserAdmin(BaseUserAdmin):
     ordering = ['id']
     list_display = ['email', 'name']
     fieldsets = (
-        (None, {
+        (None,
+        {
             'fields': (
                 'email', 'password'
                 )
-               }
+        }
                 ),
         (
             _('Permissions'),
@@ -39,6 +40,8 @@ class UserAdmin(BaseUserAdmin):
             }
             )
     )
-    readonly_fields = ['last_login']
+
+
+readonly_fields = ['last_login']
 
 admin.site.register(models.User, UserAdmin)
