@@ -39,7 +39,6 @@ class AdminSiteTests(TestCase):
         self.assertContains(res, self.user.name)
         self.assertContains(res, self.user.email)
 
-
     def test_edit_user_page(self):
         '''
         Test if the edit user page is functioning
