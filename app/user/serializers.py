@@ -8,8 +8,8 @@ from rest_framework import serializers
 
 class UserSerializer(serializers.ModelSerializer):
     '''
-    Serializer for the user object. Validates that the JSON response is validated
-    and secure, then transforms it into a Python object/model/etc
+    Serializer for the user object. Validates that the JSON response is
+    validated and secure, then transforms it into a Python object/model/etc
     '''
 
     class Meta:

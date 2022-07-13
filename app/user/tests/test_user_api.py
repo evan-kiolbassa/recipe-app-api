@@ -75,5 +75,5 @@ class PublicUserApiTests(TestCase):
         self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
         user_exists = get_user_model().objects.filter(
             email=payload['email']
-        ).exists() # Returns a boolean if email exists
+        ).exists()  # Returns a boolean if email exists
         self.assertFalse(user_exists)
