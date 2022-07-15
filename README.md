@@ -13,11 +13,11 @@ Running docker-compose commands will install all of the necessary app dependenci
 ```
 docker-compose build
 docker-compose up
-```bash
+```
 
 To run the API, copy and paste the following command into your terminal;
 
 ```
 docker-compose run --rm app sh -c 'python manage.py startapp user'
-```bash
+```
 
