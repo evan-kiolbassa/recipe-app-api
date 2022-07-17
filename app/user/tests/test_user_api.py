@@ -9,7 +9,7 @@ from rest_framework.test import APIClient
 from rest_framework import status
 
 CREATE_USER_URL = reverse('user:create')
-
+TOKEN_URL = reverse('user:token')
 
 def create_user(**params):
     '''
@@ -77,3 +77,53 @@ class PublicUserApiTests(TestCase):
             email=payload['email']
         ).exists()  # Returns a boolean if email exists
         self.assertFalse(user_exists)
+
+    def test_create_token_for_user(self):
+        '''
+        Tests the generation of a user specific token
+        '''
+        user_details = {
+            'name': 'Test Name',
+            'email': 'test@example.com',
+            'password': 'test-user-password123'
+        }
+        create_user(**user_details)
+
+        payload = {
+            'email': user_details['email'],
+            'password': user_details['password']
+        }
+        res = self.client.post(TOKEN_URL, payload)
+
+        self.assertIn('token', res.data)
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+
+        def test_create_token_bad_credentials(self):
+            '''
+            Tests that a token is not created if user enters
+            invalid credentials
+            '''
+            create_user(email='test@example.com', password='goodpassword')
+
+            payload = {
+                'email': 'test@example.com',
+                'password': 'badpassword'
+            }
+            res = self.client.post(TOKEN_URL, payload)
+
+            self.assertNotIn('token', res.data)
+            self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
+
+        def test_create_token_blank_password(self):
+            '''
+            Test that entering a blank password returns a 400 response
+            '''
+
+            payload = {
+                'emal': 'test@example.com',
+                'password': ''
+            }
+            res = self.client.post(TOKEN_URL, payload)
+
+            self.assertNotIn('token', res.data)
+            self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
